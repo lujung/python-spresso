@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>SPRESSO - API</title>
+    <style>
+        ul {
+            background: ghostwhite;
+            padding: 20px;
+        }
+
+        ul li {
+            margin: 5px;
+        }
+
+        ul ul {
+            background: none;
+        }
+
+        pre {
+            background-color: white;
+            border: 1px solid silver;
+            padding: 10px 20px;
+            margin: 20px;
+        }
+
+    </style>
+</head>
+<body>
+{% for grant in grants %}
+    <h1>{{ grant.__class__.__name__ }}</h1>
+    Internal endpoints:
+    <ul>
+        {% for endpoint in grant.settings.endpoints.all().values() %}
+            <li>{{ endpoint }}</li>
+        {% endfor %}
+    </ul>
+
+    {% if grant.settings.endpoints_ext %}
+        External endpoints:
+        <ul>
+            {% for entry in grant.settings.endpoints_ext.all().values() %}
+                {% if entry._dictionary is undefined %}
+                    <li>{{ entry }}</li>
+                {% else %}
+                    <li>{{ entry.name }}</li>
+                    <ul>
+                        {% for endpoint in entry.all().values() %}
+                            <li>{{ endpoint }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endfor %}
+            {% if grant.settings.endpoints_ext.default %}
+                <li>Default</li>
+                <ul>
+                    {% for entry in grant.settings.endpoints_ext.default.all().values() %}
+                        <li>{{ entry }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if grant.settings.fwd_selector is defined %}
+        Registered Forwarder endpoints
+        <ul>
+            {% for entry in grant.settings.fwd_selector.all().values() %}
+                <li>{{ entry }}</li>
+            {% endfor %}
+            {% if grant.settings.fwd_selector.default %}
+                <li>{{ grant.settings.fwd_selector.default }}</li>
+            {% endif %}
+        </ul>
+    {% endif %}
+
+    {% if grant.settings.json_schemata %}
+        JSON schema definitions:
+        <ul>
+            {% for entry in grant.settings.json_schemata.all().values() %}
+                <li>
+                    {{ entry }}
+                    <pre><code>{{ entry.schema.get_schema() }}</code></pre>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+{% endfor %}
+</body>
+</html>

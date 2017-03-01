@@ -1,0 +1,4 @@
+include README.rst
+include .version
+include LICENSE
+recursive-include spresso/resources *

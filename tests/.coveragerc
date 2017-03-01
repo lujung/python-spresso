@@ -1,0 +1,20 @@
+[run]
+branch = True
+source = spresso
+omit =
+    /resources/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+    raise ValueError
+    raise SpressoInvalidError
+    raise SpressoConnectionError
+    raise NotImplementedError
+
+    if __name__ == .__main__.:
+
+ignore_errors = True
+precision = 2
+show_missing = True
