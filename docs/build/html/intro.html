@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>python-spresso &#8212; python-spresso 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to python-spresso’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="python-spresso">
+<h1>python-spresso<a class="headerlink" href="#python-spresso" title="Permalink to this headline">¶</a></h1>
+<p>python-spresso is a framework that aims at making it easy to provide authentication
+via <a class="reference external" href="https://spresso.me/">SPRESSO</a> within an application stack.</p>
+<p><a class="reference external" href="http://python-spresso.readthedocs.org/en/latest/index.html">Documentation</a></p>
+</div>
+<div class="section" id="status">
+<h1>Status<a class="headerlink" href="#status" title="Permalink to this headline">¶</a></h1>
+<p>python-spresso is under development. All main parts of the <a class="reference external" href="http://infsec.uni-trier.de/publications/paper/FettKuestersSchmitz-TR-spresso-2015.pdf">SPRESSO Paper</a> have been implemented.</p>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>python-spresso is available on
+<a class="reference external" href="http://pypi.python.org/pypi/python-spresso/">PyPI</a>.</p>
+<blockquote>
+<div>pip install python-spresso</div></blockquote>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>The following examples only shows how to instantiate the providers.
+It is not a working example as site adapter implementations for the Identity Provider are missing.
+Take a look at the <a class="reference external" href="/examples/">examples</a> directory.</p>
+<p>Example Settings</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wsgiref.simple_server</span> <span class="kn">import</span> <span class="n">make_server</span>
+
+<span class="kn">import</span> <span class="nn">spresso</span>
+
+<span class="c1"># Create the controller.</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">Settings</span><span class="p">()</span>
+
+<span class="n">provider</span><span class="o">.</span><span class="n">add_grant</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">ForwardAuthenticateGrant</span><span class="p">())</span>
+<span class="c1"># Wrap the controller with the WSGI adapter</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">ProviderApplication</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">httpd</span> <span class="o">=</span> <span class="n">make_server</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">8080</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example Identity Provider</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wsgiref.simple_server</span> <span class="kn">import</span> <span class="n">make_server</span>
+
+<span class="kn">import</span> <span class="nn">spresso</span>
+
+<span class="k">class</span> <span class="nc">LoginSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">LoginSiteAdapter</span><span class="p">):</span>
+    <span class="n">TEMPLATE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        &lt;form id=&#39;loginform&#39; onsubmit=&quot;getIdentityAssertion(); return false;&quot;&gt;</span>
+<span class="s1">            Email Address: &lt;span id=&quot;email_placeholder&quot;&gt;&lt;/span&gt;&lt;br&gt;</span>
+<span class="s1">            Password:&lt;input type=&quot;password&quot; id=&quot;password&quot;&gt;</span>
+<span class="s1">            &lt;button type=&quot;submit&quot;&gt;Log In&lt;/button&gt;</span>
+<span class="s1">        &lt;/form&gt;</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">authenticate_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="c1"># Return user email from session</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">render_auth_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATE</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">class</span> <span class="nc">SignSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">IdentityProviderSignSiteAdapter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">authenticate_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="c1"># raise spresso.error.UserNotAuthenticated(&quot;message&quot;) Exception</span>
+        <span class="c1"># if the user could not be authenticated locally.</span>
+        <span class="c1"># POST parameter are accessible through the request object:</span>
+        <span class="c1"># request.post_param(&#39;email&#39;), request.post_param(&#39;password&#39;))</span>
+
+
+<span class="n">login</span> <span class="o">=</span> <span class="n">LoginSiteAdapter</span><span class="p">()</span>
+<span class="n">sign</span> <span class="o">=</span> <span class="n">SignSiteAdapter</span><span class="p">()</span>
+
+<span class="c1"># Create the controller.</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">Settings</span><span class="p">()</span>
+
+<span class="n">provider</span><span class="o">.</span><span class="n">add_grant</span><span class="p">(</span>
+    <span class="n">spresso</span><span class="o">.</span><span class="n">IdentityProviderAuthenticationGrant</span><span class="p">(</span>
+        <span class="n">login_site_adapter</span><span class="o">=</span><span class="n">login</span><span class="p">,</span>
+        <span class="n">signature_site_adapter</span><span class="o">=</span><span class="n">sign</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Wrap the controller with the WSGI adapter</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">ProviderApplication</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">httpd</span> <span class="o">=</span> <span class="n">make_server</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">8081</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example Relying Party</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">wsgiref.simple_server</span> <span class="kn">import</span> <span class="n">make_server</span>
+
+<span class="kn">import</span> <span class="nn">spresso</span>
+
+<span class="n">sessions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="n">authenticated_sessions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">IndexSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">IndexSiteAdapter</span><span class="p">):</span>
+    <span class="n">TEMPLATE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        authenticated_sessions: {}&lt;br&gt;</span>
+<span class="s1">        &lt;form onsubmit=&quot;startLogin(); return false;&quot;&gt;</span>
+<span class="s1">            &lt;input id=&quot;email_input&quot; value=&quot;&quot; required autofocus&gt;</span>
+<span class="s1">            &lt;button type=&quot;submit&quot;&gt;Login&lt;/button&gt;</span>
+<span class="s1">        &lt;/form&gt;</span>
+<span class="s1">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">render_auth_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">environ</span><span class="p">):</span>
+        <span class="c1"># retrieve cookie and get session from user</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">authenticated_sessions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+
+<span class="k">class</span> <span class="nc">StartLoginSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">StartLoginSiteAdapter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">save_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+        <span class="n">sessions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">RedirectSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">RedirectSiteAdapter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">load_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sessions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">LoginSiteAdapter</span><span class="p">(</span><span class="n">spresso</span><span class="o">.</span><span class="n">LoginSiteAdapter</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">load_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">sessions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save_session</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">):</span>
+        <span class="n">authenticated_sessions</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">authentication_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;User is logged in&#39;</span><span class="p">)</span>
+
+
+<span class="n">index</span> <span class="o">=</span> <span class="n">IndexSiteAdapter</span><span class="p">()</span>
+<span class="n">start_login</span> <span class="o">=</span> <span class="n">StartLoginSiteAdapter</span><span class="p">()</span>
+<span class="n">redirect</span> <span class="o">=</span> <span class="n">RedirectSiteAdapter</span><span class="p">()</span>
+<span class="n">login</span> <span class="o">=</span> <span class="n">LoginSiteAdapter</span><span class="p">()</span>
+<span class="c1"># Create the controller.</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">RelyingPartyAuthenticationSettings</span><span class="p">()</span>
+
+<span class="n">provider</span><span class="o">.</span><span class="n">add_grant</span><span class="p">(</span>
+    <span class="n">spresso</span><span class="o">.</span><span class="n">RelyingPartyAuthenticationGrant</span><span class="p">(</span>
+        <span class="n">index_site_adapter</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+        <span class="n">start_login_site_adapter</span><span class="o">=</span><span class="n">start_login</span><span class="p">,</span>
+        <span class="n">redirect_site_adapter</span><span class="o">=</span><span class="n">redirect</span><span class="p">,</span>
+        <span class="n">login_site_adapter</span><span class="o">=</span><span class="n">login</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+
+<span class="c1"># Wrap the controller with the Wsgi adapter</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">spresso</span><span class="o">.</span><span class="n">wsgi</span><span class="o">.</span><span class="n">ProviderApplication</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">httpd</span> <span class="o">=</span> <span class="n">make_server</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">8082</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+    <span class="n">httpd</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="site-adapter">
+<h1>Site adapter<a class="headerlink" href="#site-adapter" title="Permalink to this headline">¶</a></h1>
+<p>python-spresso does not define how you identify a user or show a confirmation dialogue.
+Instead your application should use the API defined by <code class="docutils literal"><span class="pre">spresso.controller.grant.authentication.SiteAdapter</span></code>.</p>
+</div>
+<div class="section" id="extendability">
+<h1>Extendability<a class="headerlink" href="#extendability" title="Permalink to this headline">¶</a></h1>
+<p>Provider WSGI applications can be wrapped with other applications.
+This can be achieved by using classes from the werkzeug python package.</p>
+<p>Additionally a PathDispatcher is available, that first checks the Provider application and
+then a default application.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># Path prefix based dispatching</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">DispatcherMiddleware</span><span class="p">(</span><span class="n">provider_app</span><span class="p">,</span> <span class="p">{</span>
+    <span class="s1">&#39;/app&#39;</span><span class="p">:</span> <span class="n">app</span>
+<span class="p">})</span>
+
+<span class="n">run_simple</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="n">app</span><span class="p">)</span>
+
+
+<span class="c1"># Path based dispatching</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">PathDispatcher</span><span class="p">(</span><span class="n">flask_app</span><span class="p">,</span> <span class="n">provider_app</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">python-spresso</a></li>
+<li><a class="reference internal" href="#status">Status</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#site-adapter">Site adapter</a></li>
+<li><a class="reference internal" href="#extendability">Extendability</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to python-spresso&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/intro.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Lukas Jung.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/intro.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

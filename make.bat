@@ -21,11 +21,16 @@ goto end
 python tests/__init__.py coverage
 goto end
 
+:apidoc
+sphinx-apidoc -fMeET spresso -o docs/api
+goto end
+
 :help
 echo Supported commands are:
 echo init
 echo test
 echo coverage
+echo apidoc
 
 :end
 popd

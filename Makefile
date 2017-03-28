@@ -7,4 +7,7 @@ test:
 coverage:
     python3 tests/__init__.py coverage
 
+apidoc:
+    sphinx-apidoc -fMeET spresso -o docs/api
+
 .PHONY: init test coverage apidoc
