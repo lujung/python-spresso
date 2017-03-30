@@ -174,7 +174,7 @@ intersphinx_mapping = {
 def run_apidoc(_):
     sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
     cur_dir = os.path.abspath(os.path.dirname(__file__))
-    module = '../spresso'
+    module = os.path.join(cur_dir, '../spresso')
     output_path = os.path.join(cur_dir, 'api')
     main(['-e', '-o', output_path, module, '--force'])
 
