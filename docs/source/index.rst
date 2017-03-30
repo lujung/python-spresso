@@ -9,16 +9,17 @@ Status
 
 python-spresso is feature complete, as specified in the `SPRESSO Paper <http://infsec.uni-trier.de/publications/paper/FettKuestersSchmitz-TR-spresso-2015.pdf>`_ .
 
-Contents:
-=========
+Contents
+========
 .. toctree::
    :maxdepth: 2
 
    intro.rst
 
-Api:
-====
+Api
+===
 .. toctree::
+   :maxdepth: 2
    :glob:
 
    api/*
