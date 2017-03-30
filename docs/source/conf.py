@@ -176,7 +176,7 @@ def run_apidoc(_):
     cur_dir = os.path.abspath(os.path.dirname(__file__))
     module = os.path.join(os.path.dirname(__file__), '../../spresso')
     output_path = os.path.join(cur_dir, 'api')
-    main(['-e', '-o', output_path, module, '--force'])
+    main(['-fMeET', '-o', output_path, module, '--force'])
 
 
 def setup(app):
