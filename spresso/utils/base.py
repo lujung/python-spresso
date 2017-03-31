@@ -67,9 +67,8 @@ def get_file_content(path, mode):
 
 
 def update_existing_keys(source, target):
-    """Wrapper around :py:func:`update` of the builtin 
-    :py:class:`dict`.
-    This function only updates the existing keys in the dictionary.
+    """Wrapper around :py:func:`update` of the builtin :py:class:`dict`.
+        This function only updates the existing keys in the dictionary.
 
         Args:
             source (dict): The source dictionary.
@@ -82,7 +81,7 @@ def update_existing_keys(source, target):
 
 def get_url(scheme, netloc, path="", params="", query="", fragment=""):
     """Wrapper around :py:class:`urllib.parse.ParseResult` and  
-    :py:func:`urllib.parse.urlunparse` to retrieve an URL.
+        :py:func:`urllib.parse.urlunparse` to retrieve an URL.
 
         Args:
             scheme (str): The URL scheme.
@@ -101,7 +100,7 @@ def get_url(scheme, netloc, path="", params="", query="", fragment=""):
 
 def to_b64(data):
     """Wrapper around :py:func:`base64.b64encode` to encode data using
-     Base64.
+        Base64.
 
         Args:
             data (Union[str, bytes]): The data.
@@ -118,7 +117,7 @@ def to_b64(data):
 
 def from_b64(data_b64, return_bytes=False):
     """Wrapper around :py:func:`base64.b64decode` to decode data using
-     Base64.
+        Base64.
 
         Args:
             data_b64 (Union[str, bytes]): The Base64-encoded data.
@@ -140,7 +139,7 @@ def from_b64(data_b64, return_bytes=False):
 
 def get_resource(resource_path, path):
     """Method to retrieve resource files from the package installation
-     directory.
+        directory.
 
         Args:
             resource_path (str): The path where resources are stored.
