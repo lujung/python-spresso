@@ -21,7 +21,7 @@ def create_nonce(length):
 
 def create_random_characters(length,
                              chars=string.ascii_uppercase + string.digits):
-    """Generates a random string of a specified length. Per default this string
+    """Generates a random string of a specified length. Per default the charset
         consists of uppercase ASCII letters and digits.
 
         Args:
@@ -67,7 +67,7 @@ def get_file_content(path, mode):
 
 
 def update_existing_keys(source, target):
-    """Wrapper around :py:func:`update` of the builtin :py:class:`dict`.
+    """Wrapper around :py:func:`dict.update`.
         This function only updates the existing keys in the dictionary.
 
         Args:
@@ -80,8 +80,8 @@ def update_existing_keys(source, target):
 
 
 def get_url(scheme, netloc, path="", params="", query="", fragment=""):
-    """Wrapper around :py:class:`urllib.parse.ParseResult` and  
-        :py:func:`urllib.parse.urlunparse` to retrieve an URL.
+    """Wrapper around :class:`urllib.parse.ParseResult` and  
+        :func:`urllib.parse.urlunparse` to retrieve an URL.
 
         Args:
             scheme (str): The URL scheme.
@@ -103,7 +103,7 @@ def to_b64(data):
         Base64.
 
         Args:
-            data (Union[str, bytes]): The data.
+            data (str, bytes): The data.
 
         Returns:
             str: The Base64-encoded data.
@@ -120,12 +120,12 @@ def from_b64(data_b64, return_bytes=False):
         Base64.
 
         Args:
-            data_b64 (Union[str, bytes]): The Base64-encoded data.
+            data_b64 (str, bytes): The Base64-encoded data.
             return_bytes (bool): Flag to indicate if bytes or string should be 
                 returned.
 
         Returns:
-            Union[str, bytes]: The decoded data.
+            str, bytes: The decoded data.
     """
     if isinstance(data_b64, str):
         data_b64 = data_b64.encode('utf-8')

@@ -3,15 +3,14 @@
     <spresso.controller.application>.
     If logging has not been configured, you will likely see this error:
 
-        .. code-block:: python
-            No handlers could be found for logger 
-                "spresso.controller.application"
+    .. code-block:: python
+        No handlers could be found for logger "spresso.controller.application"
 
     Make sure that logging is configured to avoid this:
 
-        .. code-block:: python
-            import logging
-            logging.basicConfig()
+    .. code-block:: python
+        import logging
+        logging.basicConfig()
 """
 
 import logging
