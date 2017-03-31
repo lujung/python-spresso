@@ -7,11 +7,14 @@ from urllib.parse import ParseResult, urlunparse
 
 
 def create_nonce(length):
-    """
-    Generates random_choice bit string.
-    UNIX-like system will query /dev/urandom, Windows will use CryptGenRandom()
-    :param length: int
-    :return: byte
+    """Generates random bytes of specified length. UNIX-like system will query 
+        /dev/urandom, Windows will use CryptGenRandom()
+
+        Args:
+            length (int): The length of the random sequence.
+
+        Returns:
+            bytes: The random sequence.
     """
     return os.urandom(length)
 
