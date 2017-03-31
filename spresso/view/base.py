@@ -8,6 +8,17 @@ from spresso.utils.base import get_resource
 
 
 def json_error_response(error, response, status_code=400):
+    """Method for returning a JSON error response, based on a 
+    :class:`spresso.utils.error.SpressoBaseError`.
+
+        Args:
+            error (spresso.utils.error.SpressoBaseError): The error.
+            response (spresso.model.web.base.Response): The response.
+            status_code (int): The HTTP status code.
+
+        Returns:
+            spresso.model.web.base.Response: The response containing the error.
+    """
     msg = {"error": error.error, "error_description": error.explanation}
 
     if error.uri:
