@@ -17,10 +17,13 @@ class InvalidSettings(Exception):
 class SpressoBaseError(Exception):
     """
         Base class used by SPRESSO specific errors.
-        :param error: Identifier of the error.
-        :param uri: URL at which the error occurred.
-        :param message: Short message that describes the error.
+        
+        Args:
+            error (str): Identifier of the error.
+            uri (str): URL at which the error occurred.
+            message (str): Short message that describes the error.
     """
+
     def __init__(self, error, uri=None, message=None):
         self.error = error
         self.uri = uri

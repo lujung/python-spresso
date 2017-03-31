@@ -35,7 +35,7 @@ def create_random_characters(length,
 
 
 def get_file_content(path, mode):
-    """Wrapper around the :py:func:`open` function.
+    """Wrapper around :py:func:`open`.
 
         Args:
             path (str): The path to the file.
@@ -67,7 +67,7 @@ def get_file_content(path, mode):
 
 
 def update_existing_keys(source, target):
-    """Wrapper around the :py:func:`update` function of the builtin 
+    """Wrapper around :py:func:`update` of the builtin 
     :py:class:`dict`.
     This function only updates the existing keys in the dictionary.
 
@@ -81,8 +81,8 @@ def update_existing_keys(source, target):
 
 
 def get_url(scheme, netloc, path="", params="", query="", fragment=""):
-    """Wrapper around the :py:class:`urllib.parse.ParseResult` class and the 
-    :py:func:`urllib.parse.urlunparse` function to retrieve an URL.
+    """Wrapper around :py:class:`urllib.parse.ParseResult` and  
+    :py:func:`urllib.parse.urlunparse` to retrieve an URL.
 
         Args:
             scheme (str): The URL scheme.
@@ -100,7 +100,7 @@ def get_url(scheme, netloc, path="", params="", query="", fragment=""):
 
 
 def to_b64(data):
-    """Wrapper around the :py:func:`base64.b64encode` to encode data using
+    """Wrapper around :py:func:`base64.b64encode` to encode data using
      Base64.
 
         Args:
@@ -117,7 +117,7 @@ def to_b64(data):
 
 
 def from_b64(data_b64, return_bytes=False):
-    """Wrapper around the :py:func:`base64.b64decode` to decode data using
+    """Wrapper around :py:func:`base64.b64decode` to decode data using
      Base64.
 
         Args:
