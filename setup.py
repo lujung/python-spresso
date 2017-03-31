@@ -10,8 +10,9 @@ setup(
     author="Lukas Jung",
     author_email="mail@lukasjung.de",
     url="https://github.com/lujung/python-spresso",
-	download_url="https://github.com/lujung/python-spresso/archive/master.tar.gz",
-    packages=[d[0].replace("/", ".") for d in os.walk("spresso") if not d[0].endswith("__pycache__")],
+    download_url="https://github.com/lujung/python-spresso/archive/master.tar.gz",
+    packages=[d[0].replace("/", ".") for d in os.walk("spresso") if
+              not d[0].endswith("__pycache__")],
     install_requires=[
         'cryptography',
         'requests',

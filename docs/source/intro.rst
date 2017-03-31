@@ -10,7 +10,7 @@ Usage
 =====
 The following examples only shows how to instantiate the providers.
 It is not a working example as site adapter implementations for the Identity Provider are missing.
-Take a look at the `examples </examples/>`_ directory.
+Take a look at the `examples <https://github.com/lujung/python-spresso/tree/master/example>`_ directory.
 
 Example Settings
 

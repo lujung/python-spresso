@@ -9,13 +9,24 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 
 def encrypt_aes_gcm(key, iv, plaintext, associated_data=b""):
-    """
-    Method for encrypting AES-GCM
-    :param key: byte
-    :param plaintext: byte
-    :param associated_data: byte
-    :param iv: byte
-    :return: byte, byte
+    """Method to encrypt AES in GCM mode.
+
+        Constructs a :class:`Cipher <cryptography.hazmat.primitives.ciphers.Cipher>`
+        object from key, iv. The plain text is passed in during encryption.
+
+        Args:
+            key (bytes): The symmetric key used during encryption.
+            iv (bytes): The initialisation vector used during encryption.
+            plaintext (bytes): Plain text to encrypt.
+            associated_data (bytes): Additional data to authenticate.
+
+        Returns:
+            tuple: The encrypted plain text as bytes and the authentication tag
+             as bytes.
+
+        Raises:
+            InvalidTag: The authentication tag in combination with the given
+                parameters is invalid.
     """
 
     #: Construct an AES-GCM Cipher object with the given key and a
@@ -53,7 +64,7 @@ def decrypt_aes_gcm(key, iv, auth_tag, cipher_text, associated_data=b""):
             in during encryption.
 
     Returns:
-        bytes: The decrypted cipher text as bytes.
+        bytes: The decrypted cipher text.
 
     Raises:
         InvalidTag: The authentication tag in combination with the given
@@ -71,11 +82,19 @@ def decrypt_aes_gcm(key, iv, auth_tag, cipher_text, associated_data=b""):
 
 
 def create_signature(private_key, data):
-    """
-    Create PKCS#1 signature using SHA256.
-    :param private_key: byte
-    :param data: byte
-    :return: byte
+    """Method to create a PKCS#1 signature using SHA256.
+
+        Load a RSA private key in PEM format using :func:`load_pem_private_key
+        <cryptography.hazmat.primitives.serialization.load_pem_private_key>`.
+        Then configure a signer object and sign the passed in data.
+        
+        Args:
+            private_key (bytes): The RSA private key used during signature 
+            creation.
+            data (bytes): The data to be signed.
+
+        Returns:
+            bytes: The signature.
     """
 
     private_key = serialization.load_pem_private_key(
@@ -95,13 +114,20 @@ def create_signature(private_key, data):
 
 
 def verify_signature(public_key, signature, data):
-    """
-    Verify PKCS#1 signature using SHA256.
-    Raises an InvalidSignature Exception on failure.
-    :param public_key: byte
-    :param signature: byte
-    :param data: byte
-    :return:
+    """Method to verify a PKCS#1 signature using SHA256.
+
+        Load a RSA public key in PEM format using :func:`load_pem_public_key
+        <cryptography.hazmat.primitives.serialization.load_pem_public_key>`.
+        Then configure a verifier object and verify the passed in data.
+
+        Args:
+            public_key (bytes): The RSA public key used in verification.
+            signature (bytes): The signature to verify.
+            data (bytes): The expected signed data, which should be verified.
+
+        Raises:
+            InvalidSignature: The expected data was invalid in respect to the 
+             signature.
     """
 
     public_key = serialization.load_pem_public_key(
