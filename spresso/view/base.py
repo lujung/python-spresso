@@ -9,15 +9,16 @@ from spresso.utils.base import get_resource
 
 def json_error_response(error, response, status_code=400):
     """Method for returning a JSON error response, based on a 
-    :class:`spresso.utils.error.SpressoBaseError`.
+        :class:`spresso.utils.error.SpressoBaseError`.
 
         Args:
-            error (spresso.utils.error.SpressoBaseError): The error.
-            response (spresso.model.web.base.Response): The response.
+            error (:class:`spresso.utils.error.SpressoBaseError`): The error.
+            response (:class:`spresso.model.web.base.Response`): The response.
             status_code (int): The HTTP status code.
 
         Returns:
-            spresso.model.web.base.Response: The response containing the error.
+            :class:`spresso.model.web.base.Response`: The response containing
+             the error.
     """
     msg = {"error": error.error, "error_description": error.explanation}
 
@@ -32,6 +33,16 @@ def json_error_response(error, response, status_code=400):
 
 
 def json_success_response(data, response):
+    """Method for returning a JSON success response, based on response data.
+
+        Args:
+            data (str): The response data.
+            response (:class:`spresso.model.web.base.Response`): The response.
+
+        Returns:
+            :class:`spresso.model.web.base.Response`: The response containing
+             the data.
+    """
     response.data = data
     response.status_code = 200
 
@@ -43,7 +54,12 @@ def json_success_response(data, response):
 
 
 class View(object):
+    """Basic view class."""
     def __init__(self, response_class=Response, **kwargs):
+        """Args:
+                response_class (optional): The response class, defaults to 
+                :class:`spresso.model.web.base.Response`.
+        """
         super(View, self).__init__(**kwargs)
         self.response_class = response_class
 

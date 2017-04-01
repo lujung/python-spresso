@@ -103,7 +103,7 @@ def to_b64(data):
         Base64.
 
         Args:
-            data (str, bytes): The data.
+            data (str, :obj:`bytes`): The data.
 
         Returns:
             str: The Base64-encoded data.
@@ -120,12 +120,12 @@ def from_b64(data_b64, return_bytes=False):
         Base64.
 
         Args:
-            data_b64 (str, bytes): The Base64-encoded data.
+            data_b64 (str, :obj:`bytes`): The Base64-encoded data.
             return_bytes (bool): Flag to indicate if bytes or string should be 
                 returned.
 
         Returns:
-            str, bytes: The decoded data.
+            str, :obj:`bytes`: The decoded data.
     """
     if isinstance(data_b64, str):
         data_b64 = data_b64.encode('utf-8')
