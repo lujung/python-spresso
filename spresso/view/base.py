@@ -40,8 +40,8 @@ def json_success_response(data, response):
             response (:class:`spresso.model.web.base.Response`): The response.
 
         Returns:
-            :class:`spresso.model.web.base.Response`: The response containing
-             the data.
+            :class:`spresso.model.web.base.Response`: The response containing 
+            the data.
     """
     response.data = data
     response.status_code = 200
@@ -54,16 +54,27 @@ def json_success_response(data, response):
 
 
 class View(object):
-    """Basic view class."""
+    """Basic view class.
+
+        Args:
+            response_class (optional): The response class, defaults to 
+            :class:`spresso.model.web.base.Response`.
+    """
     def __init__(self, response_class=Response, **kwargs):
-        """Args:
-                response_class (optional): The response class, defaults to 
-                :class:`spresso.model.web.base.Response`.
-        """
         super(View, self).__init__(**kwargs)
         self.response_class = response_class
 
     def process(self, response):
+        """Wrapper around :func:`make_response`. If no valid response is
+         returned a default instance is returned.
+
+            Args:
+                response (:class:`spresso.model.web.base.Response`): The 
+                response.
+
+            Returns:
+                :obj:: The verified response of type `response_class`.
+        """
         response = self.make_response(response)
 
         if isinstance(response, self.response_class):
@@ -72,6 +83,15 @@ class View(object):
         return self.response_class()
 
     def make_response(self, response):
+        """Basic Interface method. Can be extended by inheriting classes.
+
+            Args:
+                response (:class:`spresso.model.web.base.Response`): The 
+                response.
+
+            Returns:
+                :obj:: The response parameter.
+        """
         return response
 
 
