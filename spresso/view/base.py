@@ -104,7 +104,7 @@ class JsonView(View):
             
             Args:
                 response (:class:`spresso.model.web.base.Response`): The 
-                response.
+                    response.
 
             Returns:
                 The response returned by :func:`json_success_response`.
@@ -120,7 +120,7 @@ class JsonView(View):
 class TemplateBase(SettingsMixin):
     """Abstract template view class. Uses `Jinja2
         <http://jinja.pocoo.org/docs/2.9/>`_ for template rendering, enabling 
-         the use of Jinja2 functionality in templates."""
+            the use of Jinja2 functionality in templates."""
     template_context = dict()
 
     def render(self):
@@ -158,7 +158,7 @@ class TemplateView(View, TemplateBase):
 
             Args:
                 response (:class:`spresso.model.web.base.Response`): The 
-                response.
+                    response.
 
             Returns:
                 The response containing the template.
