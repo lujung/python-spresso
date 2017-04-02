@@ -167,7 +167,8 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/', None),
-    'cryptography': ('https://cryptography.io/en/latest/', None)
+    'cryptography': ('https://cryptography.io/en/latest/', None),
+    'jinja2': ('http://jinja.pocoo.org/docs/2.9/', None),
 }
 
 
