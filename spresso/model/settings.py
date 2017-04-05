@@ -5,6 +5,7 @@ from spresso.model.base import JsonSchema
 
 
 class Entry(object):
+    """Basic configuration entry class."""
     name = None
 
     def __str__(self):
@@ -15,6 +16,8 @@ class Entry(object):
 
 
 class Endpoint(Entry):
+    """URL endpoint configuration entry. Enables the configuration of the path
+        and the supported HTTP methods."""
     _methods = ["GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS"]
 
     def __init__(self, name, path, methods):
@@ -38,6 +41,8 @@ class Endpoint(Entry):
 
 
 class Schema(Entry):
+    """JSON schema configuration entry. References a :class:`JsonSchema` object.
+    """
     def __init__(self, name, schema):
         self.name = name
         if not isinstance(schema, JsonSchema):
@@ -48,12 +53,15 @@ class Schema(Entry):
 
 
 class Domain(Entry):
+    """Domain configuration entry."""
     def __init__(self, name, domain):
         self.name = name
         self.domain = domain
 
 
 class ForwardDomain(Domain):
+    """Forward domain configuration entry. Extends :class:`Domain` by additional
+        security settings."""
     def __init__(self, *args, padding=True):
         super(ForwardDomain, self).__init__(*args)
         # Security config
@@ -62,6 +70,8 @@ class ForwardDomain(Domain):
 
 
 class CachingSetting(Entry):
+    """Caching configuration entry. Defines the storage type as well as the 
+        lifetime."""
     def __init__(self, name, in_memory, lifetime):
         self.name = name
 
@@ -75,6 +85,8 @@ class CachingSetting(Entry):
 
 
 class Container(Entry):
+    """Container class that holds instances of type :class:`Entry` and itself is
+        an :class:`Entry`."""
     def __init__(self, *args, name=None):
         if name:
             self.name = name
@@ -83,6 +95,11 @@ class Container(Entry):
             self.update(entry)
 
     def update(self, entry):
+        """Updates the container with an entry.
+        
+            Args:
+                entry(:class:`Entry`): The entry to be included.
+        """
         if not isinstance(entry, Entry):
             raise ValueError(
                 "Entry must inherit from '{}'".format(Entry.__name__)
@@ -90,13 +107,28 @@ class Container(Entry):
         self._dictionary.update({entry.name: entry})
 
     def get(self, name):
+        """Return an entry from the container.
+            
+            Args:
+                name(str): Unique identifier of the entry.
+            
+            Returns:
+                :class:`Entry`: The entry.
+        """
         return self._dictionary.get(name)
 
     def all(self):
+        """Return all entries of the container.
+        
+            Returns:
+                dict: The dictionary, containing all entries. 
+        """
         return self._dictionary
 
 
 class SelectionContainer(Container):
+    """A specialized container, which returns entries based on a selection
+        strategy."""
     default_id = "default"
     _strategies = ["random", "select"]
     _strategy = None
@@ -108,6 +140,7 @@ class SelectionContainer(Container):
             self.update_default(default)
 
     def select(self, name=None):
+        """Select an entry, based """
         if self._strategy == "select":
             select = self._dictionary.get(name)
             if not select:

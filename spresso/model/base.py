@@ -21,7 +21,7 @@ class Composition(dict):
         self[key] = value
 
     def to_json(self):
-        """Serialize an object values to JSON. The keys are sorted, as some 
+        """Serialize an object to JSON. The keys are sorted, as some 
             operations in the SPRESSO flow depend on a unique representation.
             json.dumps is used, because data is transmitted over the web.
             
