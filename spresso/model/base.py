@@ -13,9 +13,9 @@ class Composition(dict):
         instances, as well as import from JSON and export to JSON.
     """
     def __getattr__(self, item):
-        if item in self:
-            return self[item]
-        return None
+        if item not in self:
+            raise AttributeError
+        return self[item]
 
     def __setattr__(self, key, value):
         self[key] = value
