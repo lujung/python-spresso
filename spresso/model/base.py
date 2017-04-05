@@ -8,9 +8,10 @@ from spresso.utils.base import get_resource, get_url
 
 
 class Composition(dict):
-    """Extension to :py:class:`dict`, defining the base for all SPRESSO specific
-     objects used by the system. Enables object-like access to dictionary 
-     instances, as well as import from JSON and export to JSON."""
+    """Extension to , defining the base for all SPRESSO specific
+        objects used by the system. Enables object-like access to dictionary 
+        instances, as well as import from JSON and export to JSON.
+    """
     def __getattr__(self, item):
         return self[item]
 
