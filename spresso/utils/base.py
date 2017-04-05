@@ -143,7 +143,7 @@ def get_resource(resource_path, path):
 
         Args:
             resource_path (str): The path where resources are stored.
-            path (bool): The relative path to the resource.
+            path (str): The relative path to the resource.
 
         Returns:
             str: The file content of the resource.
