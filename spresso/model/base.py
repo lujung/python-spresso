@@ -32,7 +32,7 @@ class Composition(dict):
         """Unserialize an object from a string representation.
         
             Args:
-                str: The serialized object.
+                data(str): The serialized object.
         """
         data_json = json.loads(data)
 
@@ -56,7 +56,7 @@ class JsonSchema(object):
         """Retrieve the schema and validate the obtained data.
             
             Args:
-                dict: The data dictionary.
+                data_dict(dict): The data dictionary.
         """
         schema = json.loads(self.get_schema())
         validate(data_dict, schema)
