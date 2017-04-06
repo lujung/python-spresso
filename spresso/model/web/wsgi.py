@@ -5,6 +5,9 @@ from spresso.model.web.base import Request
 
 
 class WsgiRequest(Request):
+    """
+        Contains data of the current HTTP request.
+    """
     def __init__(self, env):
         self.query_params = {}
         self.query_string = env["QUERY_STRING"]
@@ -30,25 +33,55 @@ class WsgiRequest(Request):
 
     @property
     def method(self):
+        """
+            Returns the method of the request.
+            
+            Returns:
+                str: The method.
+        """
         return self.env_raw["REQUEST_METHOD"]
 
     @property
     def path(self):
+        """
+            Returns the path of the request.
+            
+            Returns:
+                str: The path.
+        """
         return self.env_raw["PATH_INFO"]
 
     def get_param(self, name, default=None):
+        """
+            Returns a param of a GET request identified by its name.
+            
+            Returns:
+                A default value or the parameter.
+        """
         try:
             return self.query_params[name]
         except KeyError:
             return default
 
     def post_param(self, name, default=None):
+        """
+            Returns a param of a POST request identified by its name.
+            
+            Returns:
+                A default value or the parameter.
+        """
         try:
             return self.post_params[name]
         except KeyError:
             return default
 
     def header(self, name, default=None):
+        """
+            Returns the value of the HTTP header identified by `name`.
+            
+            Returns:
+                A default value or the header.
+        """
         wsgi_header = "HTTP_{0}".format(name.upper())
 
         try:
@@ -58,6 +91,12 @@ class WsgiRequest(Request):
 
     @property
     def cookies(self):
+        """
+            Returns all cookies of the request.
+            
+            Returns:
+                An empty dictionary or all dictionary containing all cookies.
+        """
         cookie_string = self.header("Cookie")
         if cookie_string is None:
             return {}
@@ -73,6 +112,12 @@ class WsgiRequest(Request):
         return cookies
 
     def get_cookie(self, key):
+        """
+            Returns a specific cookie of the request.
+            
+            Returns:
+                None or the cookie value.
+        """
         session_cookie = self.cookies.get(key)
 
         if session_cookie is None:

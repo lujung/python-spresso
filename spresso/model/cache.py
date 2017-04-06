@@ -69,12 +69,16 @@ class CacheEntry(object):
 
 
 class Cache(SettingsMixin):
-    """Class to provide a central caching object. The object handles the caching
-        settings and manages a dictionary of :class:`CacheEntry` instances."""
+    """
+        Class to provide a central caching object. The object handles the 
+        caching settings and manages a dictionary of :class:`CacheEntry` 
+        instances.
+    """
     cache = {}
 
     def set(self, handle, settings, data):
-        """Create and store a :class:`CacheEntry`.
+        """
+            Create and store a :class:`CacheEntry`.
         
             Args:
                 handle(str): The unique identifier.
@@ -92,7 +96,8 @@ class Cache(SettingsMixin):
             })
 
     def get(self, handle):
-        """Retrieve cached data.
+        """
+            Retrieve cached data.
         
             Args:
                 handle(str): The unique identifier.

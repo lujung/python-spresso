@@ -8,7 +8,8 @@ from spresso.utils.base import get_resource
 
 
 def json_error_response(error, response, status_code=400):
-    """Method for returning a JSON error response, based on a 
+    """
+        Method for returning a JSON error response, based on a 
         :class:`spresso.utils.error.SpressoBaseError`.
 
         Args:
@@ -33,7 +34,8 @@ def json_error_response(error, response, status_code=400):
 
 
 def json_success_response(data, response):
-    """Method for returning a JSON success response, based on response data.
+    """
+        Method for returning a JSON success response, based on response data.
 
         Args:
             data (str): The response data.
@@ -54,7 +56,8 @@ def json_success_response(data, response):
 
 
 class View(object):
-    """Basic view class.
+    """
+        Basic view class.
 
         Args:
             response_class (optional): The response class, defaults to 
@@ -66,7 +69,8 @@ class View(object):
         self.response_class = response_class
 
     def process(self, response):
-        """Wrapper around :func:`make_response`. If no valid response is 
+        """
+            Wrapper around :func:`make_response`. If no valid response is 
             returned a default instance of type `response_class` is returned.
 
             Args:
@@ -83,7 +87,8 @@ class View(object):
         return self.response_class()
 
     def make_response(self, response):
-        """Basic Interface method. Can be extended by inheriting classes.
+        """
+            Basic Interface method. Can be extended by inheriting classes.
 
             Args:
                 response (:class:`spresso.model.web.base.Response`): The 
@@ -99,7 +104,8 @@ class JsonView(View):
     """Abstract JSON view class."""
 
     def make_response(self, response):
-        """Wrapper around :func:`json_success_response`. Retrieves the JSON
+        """
+            Wrapper around :func:`json_success_response`. Retrieves the JSON
             data by calling :func:`json`.
             
             Args:
@@ -112,19 +118,24 @@ class JsonView(View):
         return json_success_response(self.json(), response)
 
     def json(self):
-        """Provides the actual JSON content. Has to be implemented by inheriting
-            classes"""
+        """
+            Provides the actual JSON content. Has to be implemented by inheriting
+            classes
+        """
         raise NotImplementedError
 
 
 class TemplateBase(SettingsMixin):
-    """Abstract template view class. Uses `Jinja2
+    """
+        Abstract template view class. Uses `Jinja2
         <http://jinja.pocoo.org/docs/2.9/>`_ for template rendering, enabling 
-            the use of Jinja2 functionality in templates."""
+        the use of Jinja2 functionality in templates.
+    """
     template_context = dict()
 
     def render(self):
-        """The configuration object is mixed in. A template is chosen, loaded 
+        """
+            The configuration object is mixed in. A template is chosen, loaded 
             and rendered.
 
             Returns:
@@ -139,7 +150,8 @@ class TemplateBase(SettingsMixin):
         return template.render(**self.template_context)
 
     def template(self):
-        """Abstract template file definition. Has to be implemented by 
+        """
+            Abstract template file definition. Has to be implemented by 
             inheriting classes.
 
             Returns:
@@ -149,11 +161,14 @@ class TemplateBase(SettingsMixin):
 
 
 class TemplateView(View, TemplateBase):
-    """Abstract template view class that inserts the template in a HTTP
-        response."""
+    """
+        Abstract template view class that inserts the template in a HTTP
+        response.
+    """
 
     def make_response(self, response):
-        """Wrapper around :func:`render`. Adds the rendered template to the 
+        """
+            Wrapper around :func:`render`. Adds the rendered template to the 
             response object.
 
             Args:
@@ -168,11 +183,13 @@ class TemplateView(View, TemplateBase):
 
 
 class Script(TemplateBase):
-    """Template view class that is used to render a JavaScript used in SPRESSO.
+    """
+        Template view class that is used to render a JavaScript used in SPRESSO.
     """
 
     def template(self):
-        """Return the JS template file from the settings.
+        """
+            Return the JS template file from the settings.
 
             Returns:
                 The template file path.

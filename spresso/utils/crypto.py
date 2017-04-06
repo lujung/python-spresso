@@ -1,6 +1,8 @@
-"""This module provides the necessary cryptographic primitives for the system.
-It is based on the `cryptography <https://cryptography.io/en/latest/>`_
-package."""
+"""
+    This module provides the necessary cryptographic primitives for the system.
+    It is based on the `cryptography <https://cryptography.io/en/latest/>`_
+    package.
+"""
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, serialization
@@ -9,7 +11,8 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 
 def encrypt_aes_gcm(key, iv, plaintext, associated_data=b""):
-    """Method to encrypt AES in GCM mode.
+    """
+        Method to encrypt AES in GCM mode.
 
         Constructs a :class:`Cipher <cryptography.hazmat.primitives.ciphers.Cipher>`
         object from key, iv. The plain text is passed in during encryption.
@@ -49,26 +52,27 @@ def encrypt_aes_gcm(key, iv, plaintext, associated_data=b""):
 
 
 def decrypt_aes_gcm(key, iv, auth_tag, cipher_text, associated_data=b""):
-    """Method to decrypt AES in GCM mode.
-
-    Constructs a :class:`Cipher <cryptography.hazmat.primitives.ciphers.Cipher>`
-    object from key, iv and authentication tag. The associated data is passed in
-    during decryption.
-
-    Args:
-        key (bytes): The symmetric key used during decryption.
-        iv (bytes): The initialisation vector used during decryption.
-        auth_tag (bytes): The authentication tag used during decryption.
-        cipher_text (bytes): Cipher text to decrypt.
-        associated_data (bytes): Additional authentication data that was passed
-            in during encryption.
-
-    Returns:
-        bytes: The decrypted cipher text.
-
-    Raises:
-        InvalidTag: The authentication tag in combination with the given
-            parameters is invalid.
+    """
+        Method to decrypt AES in GCM mode.
+    
+        Constructs a :class:`Cipher <cryptography.hazmat.primitives.ciphers.Cipher>`
+        object from key, iv and authentication tag. The associated data is passed in
+        during decryption.
+    
+        Args:
+            key (bytes): The symmetric key used during decryption.
+            iv (bytes): The initialisation vector used during decryption.
+            auth_tag (bytes): The authentication tag used during decryption.
+            cipher_text (bytes): Cipher text to decrypt.
+            associated_data (bytes): Additional authentication data that was passed
+                in during encryption.
+    
+        Returns:
+            bytes: The decrypted cipher text.
+    
+        Raises:
+            InvalidTag: The authentication tag in combination with the given
+                parameters is invalid.
     """
     decryptor = Cipher(
         algorithms.AES(key),
@@ -82,7 +86,8 @@ def decrypt_aes_gcm(key, iv, auth_tag, cipher_text, associated_data=b""):
 
 
 def create_signature(private_key, data):
-    """Method to create a PKCS#1 signature using SHA256.
+    """
+        Method to create a PKCS#1 signature using SHA256.
 
         Load a RSA private key in PEM format using :func:`load_pem_private_key
         <cryptography.hazmat.primitives.serialization.load_pem_private_key>`.
@@ -114,7 +119,8 @@ def create_signature(private_key, data):
 
 
 def verify_signature(public_key, signature, data):
-    """Method to verify a PKCS#1 signature using SHA256.
+    """
+        Method to verify a PKCS#1 signature using SHA256.
 
         Load a RSA public key in PEM format using :func:`load_pem_public_key
         <cryptography.hazmat.primitives.serialization.load_pem_public_key>`.

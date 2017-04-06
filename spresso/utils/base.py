@@ -7,7 +7,8 @@ from urllib.parse import ParseResult, urlunparse
 
 
 def create_nonce(length):
-    """Generates random bytes of specified length. UNIX-like system will query 
+    """
+        Generates random bytes of specified length. UNIX-like system will query 
         /dev/urandom, Windows will use CryptGenRandom()
 
         Args:
@@ -21,7 +22,8 @@ def create_nonce(length):
 
 def create_random_characters(length,
                              chars=string.ascii_uppercase + string.digits):
-    """Generates a random string of a specified length. Per default the charset
+    """
+        Generates a random string of a specified length. Per default the charset
         consists of uppercase ASCII letters and digits.
 
         Args:
@@ -35,7 +37,8 @@ def create_random_characters(length,
 
 
 def get_file_content(path, mode):
-    """Wrapper around :py:func:`open`.
+    """
+        Wrapper around :py:func:`open`.
 
         Args:
             path (str): The path to the file.
@@ -67,7 +70,8 @@ def get_file_content(path, mode):
 
 
 def update_existing_keys(source, target):
-    """Wrapper around :py:func:`dict.update`.
+    """
+        Wrapper around :py:func:`dict.update`.
         This function only updates the existing keys in the dictionary.
 
         Args:
@@ -80,7 +84,8 @@ def update_existing_keys(source, target):
 
 
 def get_url(scheme, netloc, path="", params="", query="", fragment=""):
-    """Wrapper around :class:`urllib.parse.ParseResult` and  
+    """
+        Wrapper around :class:`urllib.parse.ParseResult` and  
         :func:`urllib.parse.urlunparse` to retrieve an URL.
 
         Args:
@@ -99,8 +104,8 @@ def get_url(scheme, netloc, path="", params="", query="", fragment=""):
 
 
 def to_b64(data):
-    """Wrapper around :py:func:`base64.b64encode` to encode data using
-        Base64.
+    """
+        Wrapper around :py:func:`base64.b64encode` to encode data using Base64.
 
         Args:
             data (str, :obj:`bytes`): The data.
@@ -116,8 +121,8 @@ def to_b64(data):
 
 
 def from_b64(data_b64, return_bytes=False):
-    """Wrapper around :py:func:`base64.b64decode` to decode data using
-        Base64.
+    """
+        Wrapper around :py:func:`base64.b64decode` to decode data using Base64.
 
         Args:
             data_b64 (str, :obj:`bytes`): The Base64-encoded data.
@@ -138,7 +143,8 @@ def from_b64(data_b64, return_bytes=False):
 
 
 def get_resource(resource_path, path):
-    """Method to retrieve resource files from the package installation
+    """
+        Method to retrieve resource files from the package installation
         directory.
 
         Args:

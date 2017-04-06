@@ -5,8 +5,11 @@ from spresso.utils.error import SpressoInvalidError
 
 
 class GetRequest(object):
-    """Class to resolve GET requests, based on the requests package. Enables the
-        use of proxy servers and the verification of public key certificates."""
+    """
+        Class to resolve GET requests, based on the requests package. Enables 
+        the use of proxy servers and the verification of public key 
+        certificates.
+    """
 
     def __init__(self, scheme, netloc, path, verify, proxies):
         super(GetRequest, self).__init__()
@@ -15,7 +18,8 @@ class GetRequest(object):
         self.proxies = proxies
 
     def request(self):
-        """Performs a GET request.
+        """
+            Performs a GET request.
         
             Returns:
                 The response object, returned by requests.get().
