@@ -4,6 +4,9 @@ from spresso.model.settings import Container
 
 
 class Setting(object):
+    """
+        Base class for configuration objects.
+    """
     _available_schemes = ["http", "https"]
     endpoints = Container()
     scheme = "https"

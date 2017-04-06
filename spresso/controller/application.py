@@ -7,11 +7,29 @@ from spresso.utils.log import app_log
 
 
 class Application(object):
+    """
+        Endpoint of requests to the SPRESSO provider.
+        
+        Args:
+            response_class(:class:`Response`): The response class.
+    """
     def __init__(self, response_class=Response):
         self.response_class = response_class
         self.grant_types = []
 
     def dispatch(self, request, environ):
+        """
+            Dispatching of a client request. Choose the correct grant type from
+            the request and dispatch the request to it.
+        
+            Args:
+                request(:class:`Request`): The request.
+                environ(dict): The WSGI environment.
+            
+            Returns:
+                The :func:'GrantHandler.process' call on the appropriate grant,
+                returning a response to the requesting client.
+        """
         try:
             grant_type = self._grant_type(request)
             response = self.response_class()
@@ -42,6 +60,9 @@ class Application(object):
             )
 
     def add_grant(self, grant):
+        """
+            Add a grant to the application.
+        """
         self.grant_types.append(grant)
 
     def _grant_type(self, request):
