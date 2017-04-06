@@ -128,7 +128,11 @@ class Container(Entry):
 
 class SelectionContainer(Container):
     """A specialized container, which returns entries based on a selection
-        strategy."""
+        strategy. A default return value can be provided.
+        Supported selection strategies are:
+            random: Choose a random :class:`Entry` from the dictionary.
+            select: Choose a fixed :class:`Entry` from the dictionary.
+    """
     default_id = "default"
     _strategies = ["random", "select"]
     _strategy = None
@@ -140,7 +144,15 @@ class SelectionContainer(Container):
             self.update_default(default)
 
     def select(self, name=None):
-        """Select an entry, based """
+        """Return an entry from the dictionary. In case of the "select" strategy
+            a name has to be specified.
+        
+            Args:
+                name(str): Unique identifier.
+            
+            Returns:
+                None or an entry from the dictionary.
+        """
         if self._strategy == "select":
             select = self._dictionary.get(name)
             if not select:
@@ -153,9 +165,19 @@ class SelectionContainer(Container):
         return None
 
     def update_default(self, value):
+        """Update the default return value.
+            
+            Args:
+                value(str): The new default entry.
+        """
         self._dictionary.update({self.default_id: value})
 
     def set_strategy(self, strategy):
+        """Set the selection strategy.
+        
+            Args:
+                strategy(str): The selection strategy.
+        """
         if strategy not in self._strategies:
             raise ValueError("Strategy was not found, available inputs are {}"
                              .format(self._strategies))
