@@ -1,6 +1,5 @@
 from spresso.model.base import Composition, SettingsMixin
-from spresso.utils.base import update_existing_keys, \
-    to_b64, from_b64
+from spresso.utils.base import update_existing_keys, to_b64, from_b64
 from spresso.utils.crypto import create_signature, decrypt_aes_gcm, \
     verify_signature
 from spresso.utils.error import InvalidSettings
@@ -8,10 +7,10 @@ from spresso.utils.error import InvalidSettings
 
 class IdentityAssertionBase(Composition, SettingsMixin):
     """
-    Basic Identity Assertion Class.
-    The template instances 'signature' and 'expected_signature'
-    can be extended to hold further information.
-    Object is used by IdP and RP.
+        Basic Identity Assertion Class.
+        The template instances 'signature' and 'expected_signature'
+        can be extended to hold further information.
+        Object is used by IdP and RP.
     """
     template = Composition(
         tag=None,
@@ -34,6 +33,12 @@ class IdentityAssertionBase(Composition, SettingsMixin):
         self.ia_key = None
 
     def from_session(self, session):
+        """
+            Load an Identity Assertion from a :class:`Session` object.
+            
+            Args:
+                session(:class:`Session`): The session instance.
+        """
         self.tag = session.tag_enc_json
         self.email = session.user.email
         self.forwarder_domain = session.forwarder_domain
@@ -41,6 +46,12 @@ class IdentityAssertionBase(Composition, SettingsMixin):
         self.public_key = session.idp_wk.public_key
 
     def from_request(self, request):
+        """
+            Load an Identity Assertion from a request object.
+            
+            Args:
+                request(:class:`Request`): The request instance.
+        """
         self.email = request.post_param('email')
         self.tag = request.post_param('tag')
         self.forwarder_domain = request.post_param('forwarder_domain')
@@ -49,7 +60,14 @@ class IdentityAssertionBase(Composition, SettingsMixin):
 class IdentityAssertion(IdentityAssertionBase):
     def sign(self):
         """
-        Method for signing the identity assertion.
+            Method for signing the identity assertion.
+            
+            Returns:
+                str: The b64-encoded signature.
+            
+            Raises:
+                ValueError: Attempt of creating a signature from a malformed IA.
+                InvalidSettings: The private key is missing.
         """
         # Update IA template with values from self
         update_existing_keys(self, self.signature)
@@ -73,6 +91,19 @@ class IdentityAssertion(IdentityAssertionBase):
         return to_b64(signature)
 
     def decrypt(self, data):
+        """
+            Decrypt the encrypted Identity Assertion.
+            
+            Args:
+                data(str): The encrypted IA as serialized JSON.
+            
+            Returns:
+                bytes: The decrypted IA as serialized JSON.
+            
+            Raises:
+                ValueError: A required parameter of the encrypted IA is missing.
+        
+        """
         eia = Composition()
         eia.from_json(data)
 
@@ -101,8 +132,16 @@ class IdentityAssertion(IdentityAssertionBase):
 
     def verify(self, signature):
         """
-        Verifies with a public key from whom the data came that
-        it was indeed signed by their private key
+            Verifies with a public key from whom the data came that it was 
+            indeed signed by their private key.
+            
+            Args:
+                signature(bytes): The Identity Assertion as serialized JSON.
+            
+            Raises:
+                ValueError: A required parameter to perform the verification 
+                is missing.
+                InvalidSignature: The signature verification of the IA failed.
         """
         # Get signature from IA
         if signature is None:

@@ -5,6 +5,9 @@ from spresso.utils.crypto import encrypt_aes_gcm
 
 
 class TagBase(Composition):
+    """
+        Base for a Tag. Can be extended to hold further information.
+    """
     max_domain_length = 256
 
     template = Composition(
@@ -23,7 +26,21 @@ class TagBase(Composition):
 
 
 class Tag(TagBase):
+    """
+        Tag definition, providing a method for the encryption of a Tag.
+    """
     def encrypt(self, padding=True):
+        """
+            Encrypt the Tag object.
+            
+            Args:
+                padding(bool): Domain name padding, prevent side channel 
+                attacks.
+            
+            Returns:
+                :class:`Composition`: Dictionary containing the initialization
+                vector and the cipher text.
+        """
         if None in [self.rp_nonce, self.rp_origin]:
             raise ValueError("Empty required parameter in tag")
 

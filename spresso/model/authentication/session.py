@@ -8,6 +8,10 @@ from spresso.utils.base import create_nonce, get_url, to_b64
 
 
 class Session(SettingsMixin):
+    """
+        Session object, used by the Relying Party. Validates input parameters.
+        Processes the Tag and generates the login URL.
+    """
     def __init__(self, user, idp_info, **kwargs):
         super(Session, self).__init__(**kwargs)
         self.user = user
@@ -19,6 +23,9 @@ class Session(SettingsMixin):
         self.tag_iv = create_nonce(12)
 
     def validate(self):
+        """
+            Validate the user, the settings and the Well Known info.
+        """
         self._validate_user()
         self._validate_settings()
         self._validate_well_known_info()
@@ -62,6 +69,13 @@ class Session(SettingsMixin):
         self.idp_wk = idp_wk
 
     def get_login_url(self):
+        """
+            Create, encrypt and serialize the Tag. Generate a Login 
+            URL using all information necessary for the login flow.
+        
+            Returns:
+                str: The login URL.
+        """
         tag = self._create_tag()
         tag_enc = tag.encrypt(self.padding)
         ld_path = self._create_ld_path()

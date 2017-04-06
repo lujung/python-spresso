@@ -23,6 +23,13 @@ class IdpInfoRequest(SettingsMixin):
         )
 
     def get_content(self):
+        """
+            Return the Well Known Info from the Identity Provider. Retrieved 
+            resources can be cached.
+            
+            Returns:
+                str: The HTTP response content.
+        """
         cache = self.settings.cache.get(self.netloc)
         if cache:
             return cache
